@@ -29,48 +29,53 @@
 
 #include "common/dtype.hpp"
 
-namespace bevfusion {
-namespace lidar {
+namespace bevfusion
+{
+    namespace lidar
+    {
 
-enum class CoordinateOrder : int {
-  NoneOrder = 0,
-  XYZ = 1,  // BEVFusion
-  ZYX = 2   // CenterPoint
-};
+        enum class CoordinateOrder : int
+        {
+            NoneOrder = 0,
+            XYZ = 1, // BEVFusion
+            ZYX = 2  // CenterPoint
+        };
 
-struct VoxelizationParameter {
-  nvtype::Float3 min_range;
-  nvtype::Float3 max_range;
-  nvtype::Float3 voxel_size;
-  nvtype::Int3 grid_size;
-  int num_feature;
-  int max_voxels;
-  int max_points_per_voxel;
-  int max_points;
+        struct VoxelizationParameter
+        {
+            nvtype::Float3 min_range;
+            nvtype::Float3 max_range;
+            nvtype::Float3 voxel_size;
+            nvtype::Int3 grid_size;
+            int num_feature;
+            int max_voxels;
+            int max_points_per_voxel;
+            int max_points;
 
-  static nvtype::Int3 compute_grid_size(const nvtype::Float3& max_range, const nvtype::Float3& min_range,
-                                        const nvtype::Float3& voxel_size);
-};
+            static nvtype::Int3 compute_grid_size(const nvtype::Float3 &max_range, const nvtype::Float3 &min_range,
+                                                  const nvtype::Float3 &voxel_size);
+        };
 
-class Voxelization {
- public:
-  virtual ~Voxelization() = default;
-  // points and voxels must be of half-float device pointer
-  virtual void forward(const nvtype::half* points, int num_points, void* stream = nullptr,
-                       CoordinateOrder output_order = CoordinateOrder::XYZ) = 0;
+        class Voxelization
+        {
+        public:
+            virtual ~Voxelization() = default;
+            // points and voxels must be of half-float device pointer
+            virtual void forward(const nvtype::half *points, int num_points, void *stream = nullptr,
+                                 CoordinateOrder output_order = CoordinateOrder::XYZ) = 0;
 
-  virtual unsigned int num_voxels() = 0;
-  virtual unsigned int voxel_dim() = 0;
-  virtual unsigned int indices_dim() = 0;
-  virtual std::vector<int> grid_size() = 0;
-  virtual const void* indices() = 0;
-  virtual const void* features() = 0;
-  virtual CoordinateOrder order() = 0;
-};
+            virtual unsigned int num_voxels() = 0;
+            virtual unsigned int voxel_dim() = 0;
+            virtual unsigned int indices_dim() = 0;
+            virtual std::vector<int> grid_size() = 0;
+            virtual const void *indices() = 0;
+            virtual const void *features() = 0;
+            virtual CoordinateOrder order() = 0;
+        };
 
-std::shared_ptr<Voxelization> create_voxelization(VoxelizationParameter parameter);
+        std::shared_ptr<Voxelization> create_voxelization(VoxelizationParameter parameter);
 
-};  // namespace lidar
-};  // namespace bevfusion
+    }; // namespace lidar
+}; // namespace bevfusion
 
-#endif  // __LIDAR_VOXELIZATION_HPP__
+#endif // __LIDAR_VOXELIZATION_HPP__

@@ -211,9 +211,17 @@ class EngineImplement : public Engine {
     int ibinding = 0;
     for(; ibinding < engine->getNbIOTensors(); ++ibinding){
       auto tensor_name = engine->getIOTensorName(ibinding);
-      auto binding_iter = bindings.find(tensor_name);
+      // TensorRT owns the returned C string.  Convert it explicitly to the
+      // map key type instead of relying on an implicit conversion in find().
+      // This also makes the lookup unambiguous with TensorRT 10's IO tensor
+      // API.
+      const std::string tensor_key(tensor_name);
+      auto binding_iter = bindings.find(tensor_key);
       if(binding_iter == bindings.end()){
-        printf("Failed to set the tensor address, can not found tensor %s in bindings provided.", tensor_name);
+        printf("Failed to set the tensor address, can not found tensor %s in bindings provided.\n", tensor_name);
+        printf("Provided tensor names:");
+        for (const auto& item : bindings) printf(" [%s]", item.first.c_str());
+        printf("\n");
         return false;
       }
 

@@ -42,7 +42,7 @@ import lean.quantize as quantize
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Export bevfusion model")
-    parser.add_argument('--ckpt', type=str, default='qat/ckpt/bevfusion_ptq.pth')
+    parser.add_argument('--ckpt', type=str, default='downloads/model/resnet50int8/bevfusion_ptq.pth')
     parser.add_argument('--fp16', action= 'store_true')
     args = parser.parse_args()
     return args
@@ -88,7 +88,7 @@ def main():
         suffix = "fp16"
         quantize.disable_quantization(model).apply()
         
-    data = torch.load("example-data/example-data.pth")
+    data = torch.load("downloads/example-data/example-data.pth")
     img = data["img"].data[0].cuda()
     points = [i.cuda() for i in data["points"].data[0]]
 

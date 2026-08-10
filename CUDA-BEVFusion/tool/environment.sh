@@ -22,16 +22,23 @@
 
 # export CUDA_VISIBLE_DEVICES=2
 
-export TensorRT_Lib=/path/to/tensorrt/lib
-export TensorRT_Inc=/path/to/tensorrt/include
-export TensorRT_Bin=/path/to/tensorrt/bin
+export TensorRT_Lib=/usr/lib/x86_64-linux-gnu
+export TensorRT_Inc=/usr/include/x86_64-linux-gnu
+export TensorRT_Bin=/usr/src/tensorrt/bin
 
 export CUDA_HOME=/usr/local/cuda
 export CUDA_Lib=$CUDA_HOME/lib64
 export CUDA_Inc=$CUDA_HOME/include
 export CUDA_Bin=$CUDA_HOME/bin
 
-export CUDNN_Lib=/path/to/cudnn/lib
+export CUDNN_Lib=/usr/lib/x86_64-linux-gnu
+
+# NVCC 12.6 uses GCC 11 on this machine.  Keep host C++ compilation on the
+# same libstdc++ ABI; TensorRT's C++ wrapper is shared by .cpp and .cu files.
+if [ -x /usr/bin/gcc-11 ] && [ -x /usr/bin/g++-11 ]; then
+    export CC=/usr/bin/gcc-11
+    export CXX=/usr/bin/g++-11
+fi
 
 # export TensorRT_Lib=${TENSORRT_LIB}
 # export TensorRT_Inc=${TENSORRT_INCLUDE}
@@ -53,7 +60,7 @@ export DEBUG_MODEL=resnet50int8
 
 # fp16/int8
 export DEBUG_PRECISION=int8
-export DEBUG_DATA=example-data
+export DEBUG_DATA=downloads/example-data
 export USE_Python=OFF
 
 # check the configuration path

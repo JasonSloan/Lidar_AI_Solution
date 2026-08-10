@@ -30,25 +30,28 @@
 
 #include "common/dtype.hpp"
 
-namespace bevfusion {
-namespace camera {
+namespace bevfusion
+{
+    namespace camera
+    {
 
-class Backbone {
- public:
-  virtual ~Backbone() = default;
-  virtual void forward(const nvtype::half* images, const nvtype::half* depth, void* stream = nullptr) = 0;
+        class Backbone
+        {
+        public:
+            virtual ~Backbone() = default;
+            virtual void forward(const nvtype::half *images, const nvtype::half *depth, void *stream = nullptr) = 0;
 
-  virtual nvtype::half* depth() = 0;
-  virtual nvtype::half* feature() = 0;
-  virtual std::vector<int> depth_shape() = 0;
-  virtual std::vector<int> feature_shape() = 0;
-  virtual std::vector<int> camera_shape() = 0;
-  virtual void print() = 0;
-};
+            virtual nvtype::half *depth() = 0;
+            virtual nvtype::half *feature() = 0;
+            virtual std::vector<int> depth_shape() = 0;
+            virtual std::vector<int> feature_shape() = 0;
+            virtual std::vector<int> camera_shape() = 0;
+            virtual void print() = 0;
+        };
 
-std::shared_ptr<Backbone> create_backbone(const std::string& model);
+        std::shared_ptr<Backbone> create_backbone(const std::string &model);
 
-};  // namespace camera
-};  // namespace bevfusion
+    }; // namespace camera
+}; // namespace bevfusion
 
-#endif  // __CAMERA_BACKBONE_HPP__
+#endif // __CAMERA_BACKBONE_HPP__

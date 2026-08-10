@@ -10,5 +10,7 @@ __pycache__
 /example-data
 /src/test
 /qat/onnx_int8
+/qat/onnx
 /src/onnx/*.cpp
 /src/onnx/*.h
+/downloads/

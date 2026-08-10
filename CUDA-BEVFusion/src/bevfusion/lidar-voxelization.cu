@@ -208,6 +208,7 @@ class VoxelizationImplement : public Voxelization {
 
   bool init(VoxelizationParameter param) {
     this->param_ = param;
+    // param_.grid_size.z = 40, 真实 voxelization 的 z 方向体素数, output_grid_size_.z = 41, 传给 libspconv 的稀疏网格元数据
     this->output_grid_size_ = {(int)param_.grid_size.x, (int)param_.grid_size.y, (int)param_.grid_size.z + 1};
 
     this->hash_table_size_ = param_.max_points * 2 * 2 * sizeof(unsigned int);
